@@ -15,6 +15,10 @@ export default defineConfig({
     }
   },
   server: {
-    port: 10086
+    port: 10086,
+    fs: {
+      strict: false,
+      allow: ['*']
+    }
   }
 })

@@ -12,6 +12,7 @@
   "main": ".webpack/main/index.js",
   "scripts": {
     "start": "cross-env NODE_ENV=development electron-forge start",
+    "start:win": "chcp 65001 && cross-env NODE_ENV=development electron-forge start",
     "package": "electron-forge package",
     "make": "cross-env NODE_ENV=production electron-forge make",
     "publish": "electron-forge publish",
@@ -19,7 +20,9 @@
     "lint:fix": "eslint --fix"
   },
   "dependencies": {
-    "electron-squirrel-startup": "^1.0.0"
+    "electron-squirrel-startup": "^1.0.0",
+    "file-type": "^18.0.0",
+    "fs-extra": "^11.1.0"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^0.33.1",
@@ -29,6 +32,7 @@
     "@electron-forge/maker-squirrel": "^6.0.4",
     "@electron-forge/maker-zip": "^6.0.4",
     "@electron-forge/plugin-webpack": "^6.0.4",
+    "@types/fs-extra": "^9.0.13",
     "@types/node": "^18.11.13",
     "@vercel/webpack-asset-relocator-loader": "1.7.3",
     "cross-env": "^7.0.3",

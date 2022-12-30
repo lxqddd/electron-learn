@@ -1,4 +1,5 @@
-import { BrowserWindow, Menu, app, dialog, ipcMain } from 'electron'
+import { BrowserWindow, Menu, app, globalShortcut, ipcMain } from 'electron'
+import { handleGetVideoSource } from './fileSystem'
 // declare const MAIN_WINDOW_WEBPACK_ENTRY: string
 declare const MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY: string
 
@@ -15,23 +16,7 @@ const createWindow = (): void => {
       preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY
     }
   })
-
-  const menu = Menu.buildFromTemplate([
-    {
-      label: app.name,
-      submenu: [
-        {
-          click: () => mainWindow.webContents.send('update:counter', 'add'),
-          label: 'Increment'
-        }, {
-          label: 'decrement',
-          click: () => mainWindow.webContents.send('update:counter', 'decr')
-        }
-      ]
-    }
-  ])
-
-  Menu.setApplicationMenu(menu)
+  Menu.setApplicationMenu(null)
 
   if (isDev) {
     mainWindow.loadURL('http://127.0.0.1:10086/')
@@ -51,21 +36,13 @@ function handleSetTitle() {
   })
 }
 
-async function handleOpenFile(mainWindow: BrowserWindow) {
-  ipcMain.handle('dialog:openFile', async () => {
-    const { canceled, filePaths } = await dialog.showOpenDialog(mainWindow)
-    if (canceled)
-      return canceled
-
-    else
-      return filePaths
-  })
-}
-
 app.on('ready', () => {
   createWindow()
+  globalShortcut.register('CommandOrControl+Shift+i', () => {
+    mainWindow.webContents.openDevTools()
+  })
   handleSetTitle()
-  handleOpenFile(mainWindow)
+  handleGetVideoSource()
 })
 
 app.on('window-all-closed', () => {

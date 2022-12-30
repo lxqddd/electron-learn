@@ -1,10 +1,13 @@
-type UpdateCounter = (e: any, type: 'add' | 'decr') => void
+type SelectFileType = 'openDirectory' | 'openFile'
+interface IVideoTree {
+  label: string
+  value: string
+  children?: IVideoTree[]
+}
 
 interface Window {
   electronAPI: {
-    setTitle: (title: string) => void
-    updateCounter: (callback: UpdateCounter) => void
-    openFile: () => Promise<boolean | string[]>
+    getVideoSource: (type: SelectFileType) => Promise<boolean | IVideoTree[]>
   }
 }
 
